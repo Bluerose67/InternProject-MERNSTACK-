@@ -19,7 +19,17 @@ const Trendingproducts = () => {
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt quis soluta fugiat, dicta molestias odio voluptate perspiciatis esse! Quasi magnam quam saepe deleniti temporibus esse commodi enim est cum voluptatibus?
             </p>
 
-            <ProductCards products={products} />
+            <ProductCards products={products.slice(0, visibleProducts)} />
+
+            <div className="product__btn">
+                {
+                    visibleProducts < products.length && (
+                        <button className='btn' onClick={loadMoreProducts}>
+                            Load More
+                        </button>
+                    )
+                }
+            </div>
 
         </section>
     )
