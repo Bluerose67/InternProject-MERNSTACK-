@@ -1,6 +1,60 @@
-import React from 'react'
+import React, { useState, useEffect, filteredState } from 'react'
+import productsData from "../../data/products.json"
+import ProductCards from "../shop/ProductCards"
+
+const filters = {
+    categories: ['all', 'accessories', 'dress', 'jewellery', 'cosmetics'],
+    colors: ['all', 'black', 'red', 'gold', 'blue', 'silver', 'beige', 'green'],
+    priceRanges: [
+        { label: 'Under $50', min: 0, max: 50 },
+        { label: '$50 - $100', min: 50, max: 100 },
+        { label: '$100 - $200', min: 100, max: 200 },
+        { label: '$200 and above', min: 200, Infinity }
+    ]
+}
 
 const ShopPage = () => {
+    const [products, setProducts] = useState(productsData)
+    const [filtersState, setFiltersState] = useState({
+        category: 'all',
+        color: 'all',
+        priceRange: ''
+    })
+
+    const applyFilters = () => {
+        let filteredProducts = productsData
+
+        if (filtersState.category.category && filtersState.category !== 'all') {
+            filteredProducts = filteredProducts.FILTER(product =>
+                product.category === filtersState.category
+            )
+        }
+
+        if (filtersState.color && filtersState.color !== 'all') {
+            filteredProducts = filteredProducts.filter(product => product.color ===
+                filtersState.color)
+        }
+
+        if (filtersState.priceRange) {
+            const [minPrice, maxPrice] = filtersState.priceRange.split("-").map(Number);
+            filteredProducts = filteredProducts.filter(product =>
+                product.price >= minPrice && product.price <= maxPrice
+            )
+        }
+
+        setProducts(filteredProducts)
+    }
+
+    useEffect(() => { applyFilters() }, [filteredState])
+
+    const clearFilters = () => {
+        setFiltersState({
+            category: 'all',
+            color: 'all',
+            priceRange: ''
+        })
+    }
+
     return (
         <>
             <section className='section__container bg-[#f4e5ec]'>
@@ -14,7 +68,10 @@ const ShopPage = () => {
                 <div className="flex flex-col md:flex-row md:gap-12 gap-8">
                     <div className="">Shop Filtering</div>
                     <div className="">
-                        <h3 className='text-xl font-medium !mb-4'>Available Products</h3>
+                        <h3 className='text-xl font-medium !mb-4'>Available Products:
+                            {products.length}
+                        </h3>
+                        <ProductCards products={products} />
                     </div>
                 </div>
             </section>
