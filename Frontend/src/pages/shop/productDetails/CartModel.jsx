@@ -1,6 +1,16 @@
 import React from 'react'
+import OrderSummary from './OrderSummary'
+import { updateQuanity } from '../../../redux/features/cart/cartSlice'
+import { useDispatch } from 'react-redux'
 
 const CartModel = ({ products, isOpen, onClose }) => {
+    const dispatch = useDispatch()
+    const handleQuantity = (type, id) => {
+        const payload = { type, id }
+        dispatch(updateQuanity(payload))
+
+    }
+
     return (
         <div
             className={`fixed z-[1000] inset-0 bg-black/80 transition-opacity 
@@ -21,6 +31,7 @@ const CartModel = ({ products, isOpen, onClose }) => {
                             onClick={() => onClose()}
                         ><i className="ri-xrp-line bg-black p-1 text-white"></i></button>
                     </div>
+
                     <div className="cart-items">
                         {
                             products.length === 0 ?
@@ -40,11 +51,15 @@ const CartModel = ({ products, isOpen, onClose }) => {
 
                                                 <div className='flex flex-row md:justify-start justify-end items-center
                                                 !mt-2'>
-                                                    <button className='size-6 flex items-center justify-center
+                                                    <button
+                                                        onClick={() => handleQuantity("decrement", item.id)}
+                                                        className='size-6 flex items-center justify-center
                                                     !px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-[#ed3849]
                                                     hover:text-white !ml-8'>-</button>
                                                     <span className='!px-2 text-center !mx-1'>{item.quantity}</span>
-                                                    <button className='size-6 flex items-center justify-center
+                                                    <button
+                                                        onClick={() => handleQuantity("increment", item.id)}
+                                                        className='size-6 flex items-center justify-center
                                                     px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-[#ed3849]
                                                     hover:text-white'>+</button>
 
@@ -58,6 +73,12 @@ const CartModel = ({ products, isOpen, onClose }) => {
                                 )
                         }
                     </div>
+
+                    {
+                        products.length > 0 && (
+                            <OrderSummary />
+                        )
+                    }
                 </div>
             </div>
         </div>

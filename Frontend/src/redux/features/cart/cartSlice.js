@@ -14,12 +14,6 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-    //   console.log("Adding Product:", action.payload); // Debugging
-
-    //   if (!action.payload || !action.payload.id) {
-    //     console.error("Invalid product data:", action.payload);
-    //     return;
-    //   }
 
       const isExist = state.products.find((product) => product.id === action.payload.id);
 
@@ -34,9 +28,28 @@ const cartSlice = createSlice({
       state.totalPrice = state.products.reduce((total, product) => total + product.quantity * product.price, 0);
       state.tax = state.totalPrice * state.taxRate;
       state.grandTotal = state.totalPrice + state.tax;
+    },
+    updateQuanity: (state, action) => {
+        const products = state.products.map((product) => {
+            if(product.id == action.payload.id) {
+                if(action.payload.type === "increment") {
+                    product.quantity +=1
+                } else if(action.payload.type === "decrement"){
+                    if(product.quantity > 1) {
+                        product.quantity -=1
+                    }
+                }
+            }
+            return product
+        })
+        
+        state.selectedItems = state.products.reduce((total, product) => total + product.quantity, 0);
+        state.totalPrice = state.products.reduce((total, product) => total + product.quantity * product.price, 0);
+        state.tax = state.totalPrice * state.taxRate;
+        state.grandTotal = state.totalPrice + state.tax;
     }
   }
 })
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, updateQuanity } = cartSlice.actions;
 export default cartSlice.reducer;

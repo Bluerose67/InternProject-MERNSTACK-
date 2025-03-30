@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import productsData from "../../data/products.json"
-import ProductCards from '../shop/ProductCards'
+import ProductCards from '../shop/productDetails/ProductCards'
 
 const Search = () => {
     const [searchQuery, setSearchQuery] = useState("")

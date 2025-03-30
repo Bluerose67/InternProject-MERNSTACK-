@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import productsData from "../../data/products.json"
-import ProductCards from "../shop/ProductCards"
+import productsData from "../../../data/products.json"
+import ProductCards from "../../shop/productDetails/ProductCards"
 import ShopFiltering from './ShopFiltering'
 
 const filters = {

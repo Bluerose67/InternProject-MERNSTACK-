@@ -3,7 +3,7 @@ import App from "../App";
 import Home from "../pages/home/Home";
 import CategoryPage from "../pages/category/CategoryPage";
 import Search from "../pages/search/Search";
-import ShopPage from "../pages/shop/ShopPage";
+import ShopPage from "../pages/shop/productDetails/ShopPage";
 import SingleProducts from "../pages/shop/productDetails/SingleProducts";
 
 const router = createBrowserRouter([

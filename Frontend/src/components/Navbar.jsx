@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import CartModel from '../pages/shop/CartModel'
+import CartModel from '../pages/shop/productDetails/CartModel'
 
 const Navbar = () => {
 
