@@ -11,7 +11,7 @@ const Blogs = () => {
             lg:grid-cols-4 gap-8 !mt-12">
                 {
                     blogsData.map((blog, index) =>
-                        <div className="blog__card cursor-pointer hover:scale-105
+                        <div key={index} className="blog__card cursor-pointer hover:scale-105
                         transition-all duration-300">
                             <img src={blog.imageUrl} alt="blog Image" />
                             <div className="blog__card__content">
