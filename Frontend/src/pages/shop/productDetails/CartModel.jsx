@@ -1,14 +1,20 @@
 import React from 'react'
 import OrderSummary from './OrderSummary'
-import { updateQuanity } from '../../../redux/features/cart/cartSlice'
+import { removeFromCart, updateQuanity } from '../../../redux/features/cart/cartSlice'
 import { useDispatch } from 'react-redux'
 
 const CartModel = ({ products, isOpen, onClose }) => {
     const dispatch = useDispatch()
+
     const handleQuantity = (type, id) => {
         const payload = { type, id }
         dispatch(updateQuanity(payload))
 
+    }
+
+    const handleRemove = (e, id) => {
+        e.preventDefault()
+        dispatch(removeFromCart({ id }))
     }
 
     return (
@@ -64,7 +70,8 @@ const CartModel = ({ products, isOpen, onClose }) => {
                                                     hover:text-white'>+</button>
 
                                                     <div className="!ml-5">
-                                                        <button className='text-red-500 hover:text-red-800 !mr-4'>Remove</button>
+                                                        <button className='text-red-500 hover:text-red-800 !mr-4'
+                                                            onClick={(e) => handleRemove(e, item.id)}>Remove</button>
                                                     </div>
                                                 </div>
                                             </div>
