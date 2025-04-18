@@ -2,6 +2,7 @@ const express = require('express')
 const Products = require('./products.model')
 const Reviews = require('../reviews/reviews.model')
 const verifyToken = require('../middleware/verifyToken')
+const verifyAdmin = require('../middleware/verifyAdmin')
 const router = express.Router()
 
 //post a product 
@@ -88,7 +89,7 @@ router.get("/:id", async (req, res) => {
 })
 
 //Update a product
-router.patch("/update-product/:id", verifyToken, async (req, res) => {
+router.patch("/update-product/:id", verifyToken, verifyAdmin, async (req, res) => {
     try {
         const productId = req.params.id
         const updatedProduct = await Products.findByIdAndUpdate(productId, {...req.body}, {new: true})
@@ -100,6 +101,59 @@ router.patch("/update-product/:id", verifyToken, async (req, res) => {
     } catch (error) {
         console.error("Error Updating Products", error)
         res.status(500).send({message: "Failed to update the Products"})
+    }
+})
+
+//Delete a Product
+router.delete("/:id", async (req, res) => {
+    try {
+        const productId = req.params.id
+        const deletedProduct = await Products.findByIdAndDelete(productId)
+
+        if(!deletedProduct) {
+            return res.status(404).send({ message: "Product not found"})
+        }
+
+        await Reviews.deleteMany({productId: productId})
+
+        res.status(200).send({message: "Product Deleted Successfully"})
+    } catch (error) {
+        console.error("Error Deleting Products", error)
+        res.status(500).send({message: "Failed to Delete the Products"})
+    }
+})
+
+//get related products
+router.get("/related/:id", async (req, res) => {
+    try {
+        const {id} = req.params
+        if(!id) {
+            return res.status(404).send({ message: "Product Id Required"})
+        }
+        const product = await Products.findById(id)
+        if(!product) {
+             return res.status(404).send({ message: "Product not found"})
+        }
+
+        const titleRegex = new RegExp(
+            product.name
+                .split(" ")
+                .filter((word) => word.length > 1)
+                .join("|"),
+            "i"
+        )
+        const relatedProducts = await Products.find({
+            id: {$ne: id},
+            $or: [
+                {name: {$regex: titleRegex}},
+                {category: product.category}
+            ]
+        })
+
+        res.status(200).send(relatedProducts)
+    } catch (error) {
+        console.error("Error Fetching Related Products", error)
+        res.status(500).send({message: "Failed to Fetch Related Products"})
     }
 })
 
