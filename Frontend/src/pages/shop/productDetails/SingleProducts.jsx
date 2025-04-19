@@ -5,6 +5,7 @@ import RatingStars from '../../../components/RatingStars';
 const SingleProducts = () => {
     const { id } = useParams();
 
+
     return (
         <>
             <section className='section__container bg-[#f4e5ec]'>
