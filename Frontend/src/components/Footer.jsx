@@ -9,7 +9,7 @@ import instaImg6 from "../assets/instagram-6.jpg"
 const Footer = () => {
     return (
         <>
-            <footer className='section__container footer__container'>
+            <footer id="contact" className='section__container footer__container'>
                 <div className="footer__col">
                     <h4>CONTACT INFO</h4>
                     <p>

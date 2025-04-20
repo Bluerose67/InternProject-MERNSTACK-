@@ -6,15 +6,15 @@ import { useDispatch } from 'react-redux'
 const CartModel = ({ products, isOpen, onClose }) => {
     const dispatch = useDispatch()
 
-    const handleQuantity = (type, id) => {
-        const payload = { type, id }
+    const handleQuantity = (type, _id) => {
+        const payload = { type, _id }
         dispatch(updateQuanity(payload))
 
     }
 
-    const handleRemove = (e, id) => {
+    const handleRemove = (e, _id) => {
         e.preventDefault()
-        dispatch(removeFromCart({ id }))
+        dispatch(removeFromCart({ _id }))
     }
 
     return (
@@ -58,20 +58,20 @@ const CartModel = ({ products, isOpen, onClose }) => {
                                                 <div className='flex flex-row md:justify-start justify-end items-center
                                                 !mt-2'>
                                                     <button
-                                                        onClick={() => handleQuantity("decrement", item.id)}
+                                                        onClick={() => handleQuantity("decrement", item._id)}
                                                         className='size-6 flex items-center justify-center
                                                     !px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-[#ed3849]
                                                     hover:text-white !ml-8'>-</button>
                                                     <span className='!px-2 text-center !mx-1'>{item.quantity}</span>
                                                     <button
-                                                        onClick={() => handleQuantity("increment", item.id)}
+                                                        onClick={() => handleQuantity("increment", item._id)}
                                                         className='size-6 flex items-center justify-center
                                                     px-1.5 rounded-full bg-gray-200 text-gray-700 hover:bg-[#ed3849]
                                                     hover:text-white'>+</button>
 
                                                     <div className="!ml-5">
                                                         <button className='text-red-500 hover:text-red-800 !mr-4'
-                                                            onClick={(e) => handleRemove(e, item.id)}>Remove</button>
+                                                            onClick={(e) => handleRemove(e, item._id)}>Remove</button>
                                                     </div>
                                                 </div>
                                             </div>

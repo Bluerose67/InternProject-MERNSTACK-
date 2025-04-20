@@ -15,7 +15,7 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
 
-      const isExist = state.products.find((product) => product.id === action.payload.id);
+      const isExist = state.products.find((product) => product._id === action.payload._id);
 
       if (!isExist) {
         state.products.push({ ...action.payload, quantity: 1 });
@@ -31,7 +31,7 @@ const cartSlice = createSlice({
     },
     updateQuanity: (state, action) => {
         const products = state.products.map((product) => {
-            if(product.id == action.payload.id) {
+            if(product._id == action.payload._id) {
                 if(action.payload.type === "increment") {
                     product.quantity +=1
                 } else if(action.payload.type === "decrement"){
@@ -49,7 +49,7 @@ const cartSlice = createSlice({
         state.grandTotal = state.totalPrice + state.tax;
     },
     removeFromCart: (state, action) => {
-      state.products = state.products.filter((product)=> product.id !== action.payload.id)
+      state.products = state.products.filter((product)=> product._id !== action.payload._id)
       state.selectedItems = state.products.reduce((total, product) => total + product.quantity, 0);
       state.totalPrice = state.products.reduce((total, product) => total + product.quantity * product.price, 0);
       state.tax = state.totalPrice * state.taxRate;

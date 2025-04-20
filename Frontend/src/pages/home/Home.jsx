@@ -14,7 +14,6 @@ const Home = () => {
             <Category />
             <HeroSection />
             <Trendingproducts />
-            <DealsSection />
             <PromoBanner />
             <Blogs />
         </>
